@@ -8,8 +8,8 @@ import Print from './src/print'
 import Uploader from './src/uploader'
 import './src/shortcut'
 
-Menu.init()
+// Menu.init()
 Editor.init()
-Theme.init()
-Print.init()
-Uploader.init()
+// Theme.init()
+// Print.init()
+// Uploader.init()

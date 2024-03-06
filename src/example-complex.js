@@ -1,11 +1,11 @@
 let text = `
-# CSS
+# 一个 demo ： CSS
 选择器优先级、样式继承
 
 ![](https://imgs.xiedaimala.com/LIjzPBygsVKz98q2eojsADUuyrxX1fUz/%25E9%25A5%25A5%25E4%25BA%25BA%25E8%25B0%25B7%2520logo.png)   <!-- .element: style="height:100px; " --> 
 
 
-*若愚@饥人谷*
+*Markdown PPT*
 
 
 ## 为什么关注优先级 

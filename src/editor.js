@@ -8,7 +8,8 @@ import Notes from 'reveal.js/plugin/notes/notes.esm.js'
 import Math from 'reveal.js/plugin/math/math.esm.js'
 import convert from './convert'
 import ComplexText from './example-complex.js'
-import SimpleText from './example-simple.js'
+import SimpleText from './example-simple.js' 
+import axios from 'axios'
 import { debounce } from 'lodash'
 
 const parseQuery = search => {
@@ -41,7 +42,7 @@ const Editor = {
     this.start()
   },
 
-  bind() {
+  bind() { 
     this.$saveBtn.onclick = () => {
       localStorage.markdown  = this.$editInput.value
       console.log('reload')
@@ -49,7 +50,7 @@ const Editor = {
       location.href = location.origin + location.pathname + location.hash 
       location.reload()
     } 
-    this.$resetSimpleBtn.onclick = () => {
+    this.$resetSimpleBtn.onclick =   () => { 
       this.$editInput.value = SimpleText
     }
     this.$resetComplexBtn.onclick = () => {
@@ -77,13 +78,22 @@ const Editor = {
 
   async start() {
     let queryObj = parseQuery(location.search)
-    if(queryObj.url) {
+    if(queryObj.page_id) {
+      // let res = await fetch('https://moyu-server.wangyitu.tech/api/notion?page_id='+queryObj.page_id+'&ext=md' )
+      let res = await axios.get('https://moyu-server.wangyitu.tech/api/notion?page_id='+queryObj.page_id+'&ext=md' )
+      // localStorage.markdown  = this.markdown = this.$editInput.value = res.data 不再缓存
+      this.markdown = this.$editInput.value = res.data
+      // console.log("localStorage.markdown",localStorage.markdown)
+      localStorage.page_id = queryObj.page_id
+      localStorage.autoSlide = queryObj.autoSlide     
+    } else  if(queryObj.url) {
       let res = await (await fetch('https://api.jirengu.com/api/github/raw?url=' + queryObj.url)).json()
       if(res.errCode !== 0) {
         this.$loadingText.innerText = '下载Markdown文件失败，可刷新重试'
         return
       } else {
-        localStorage.markdown  = this.markdown = this.$editInput.value = res.data
+        // localStorage.markdown  = this.markdown = this.$editInput.value = res.data
+        this.markdown = this.$editInput.value = res.data
         localStorage.url = queryObj.url
         localStorage.autoSlide = queryObj.autoSlide
       }        
